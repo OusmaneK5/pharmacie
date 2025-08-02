@@ -19,7 +19,7 @@ class CommandeController extends Controller
      */
     public function create()
     {
-        //
+        return view('commandes.create');
     }
 
     /**

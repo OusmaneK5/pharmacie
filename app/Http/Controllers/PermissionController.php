@@ -19,7 +19,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        return view('role-permission.permission.create');
     }
 
     /**
@@ -43,7 +43,7 @@ class PermissionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('role-permission.permission.edit');
     }
 
     /**

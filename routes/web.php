@@ -36,6 +36,8 @@ Route::resource('permissions',App\Http\Controllers\PermissionController::class);
         Route::resource('roles', RoleController::class)->names('roles');
     });
 
+
+
     // Pharmacie
     Route::prefix('pharmacie')->name('pharmacie.')->group(function () {
         Route::resource('medicaments', MedicamentController::class)->names('medicaments');
