@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
@@ -10,9 +11,11 @@ class PermissionController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return view('role-permission.permission.index');
-    }
+   {
+       $permissions = Permission::all();
+       return view('role-permission.permission.index', compact('permissions'));
+   }
+
 
     /**
      * Show the form for creating a new resource.
@@ -27,7 +30,18 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+          'name' => [
+            'required',
+            'string',
+            'unique:permissions,name'
+          ]
+          ]);
+
+          Permission::create([
+            'name'=> $request->name
+          ]);
+          return redirect('permissions')->with('status','permission Created Successfully');
     }
 
     /**

@@ -1,6 +1,9 @@
 @extends('layouts.role-permission.app')
 
 @section('content')
+ @if (session('status'))
+   <div class="alert alert-success">{{ session('status') }}</div>
+ @endif
 <div class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
@@ -9,7 +12,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="">Permission</a></li>
+          <li class="breadcrumb-item"><a href="#">Permission</a></li>
           <li class="breadcrumb-item active">Liste</li>
         </ol>
       </div>
@@ -34,18 +37,28 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Créer un utilisateur</td>
-              <td>
-                <a href="#" class="btn btn-success btn-sm">
-                  <i class="fas fa-edit"></i>
-                </a>
-                <a href="#" class="btn btn-danger btn-sm mx-2" onclick="return confirm('Êtes-vous sûr ?')">
-                  <i class="fas fa-trash-alt"></i>
-                </a>
-              </td>
-            </tr>
+            @forelse ($permissions as $permission)
+              <tr>
+                <td>{{ $permission->id }}</td>
+                <td>{{ $permission->name }}</td>
+                <td>
+                  <a href="{{ url('permissions/'.$permission->id.'/edit') }}" class="btn btn-success btn-sm">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <form action="{{ url('permissions/'.$permission->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr ?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm mx-2">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            @empty
+              <tr>
+                <td colspan="3" class="text-center">Aucune permission enregistrée.</td>
+              </tr>
+            @endforelse
           </tbody>
         </table>
       </div>
